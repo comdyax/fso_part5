@@ -61,22 +61,29 @@ const App = () => {
     window.localStorage.removeItem('loggedBlogAppUser')
   }
 
-  const handleNewBlog = (event) => {
+  const handleNewBlog = async (event) => {
     event.preventDefault()
     const newBlog = {
       title: title,
       author: author,
       url: url
     }
-    blogService.addBlog(newBlog)
-    setAuthor('')
-    setTitle('')
-    setUrl('')
-    setBlogs(blogs.concat(newBlog))
-    setConfirmationMessage(`a new blog: ${newBlog.title} by ${newBlog.author} was added.`)
-    setTimeout(() => {
-      setConfirmationMessage(null)
-    }, 5000)
+    try {
+      const blog = await blogService.addBlog(newBlog)
+      setAuthor('')
+      setTitle('')
+      setUrl('')
+      setBlogs(blogs.concat(blog))
+      setConfirmationMessage(`a new blog: ${blog.title} by ${blog.author} was added.`)
+      setTimeout(() => {
+        setConfirmationMessage(null)
+      }, 5000)
+    } catch (exc) {
+      setErrorMessage(exc.response.data.error)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
   }
 
   return (
