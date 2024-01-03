@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
-import LoginForm from './components/LoginForm'
+
 import blogService from './services/blogs'
 import loginService from './services/login'
 
 import NewBlog from './components/NewBlog'
 import Blogs from './components/Blogs'
+import LoginForm from './components/LoginForm'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -14,6 +16,8 @@ const App = () => {
   const [url, setUrl] = useState('')
   const [author, setAuthor] = useState('')
   const [title, setTitle] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [confirmationMessage, setConfirmationMessage] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -43,7 +47,10 @@ const App = () => {
       setPassword('')
       blogService.setToken(user.token)
     } catch (exc) {
-      //TODO: implement some kind of Error Message?
+      setErrorMessage('wrong username or password')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     }
   }
 
@@ -66,6 +73,10 @@ const App = () => {
     setTitle('')
     setUrl('')
     setBlogs(blogs.concat(newBlog))
+    setConfirmationMessage(`a new blog: ${newBlog.title} by ${newBlog.author} was added.`)
+    setTimeout(() => {
+      setConfirmationMessage(null)
+    }, 5000)
   }
 
   return (
@@ -79,6 +90,11 @@ const App = () => {
         username={username}
         password={password}
         blogs={blogs}
+      />
+
+      <Notification
+        errorMessage={errorMessage}
+        confirmationMessage={confirmationMessage}
       />
 
       <NewBlog
