@@ -14,9 +14,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [url, setUrl] = useState('')
-  const [author, setAuthor] = useState('')
-  const [title, setTitle] = useState('')
+
   const [errorMessage, setErrorMessage] = useState(null)
   const [confirmationMessage, setConfirmationMessage] = useState(null)
 
@@ -64,19 +62,10 @@ const App = () => {
     window.localStorage.removeItem('loggedBlogAppUser')
   }
 
-  const handleNewBlog = async (event) => {
+  const addNewBlog = async (newBlogObject) => {
     newBlogRef.current.toggleVisibility()
-    event.preventDefault()
-    const newBlog = {
-      title: title,
-      author: author,
-      url: url
-    }
     try {
-      const blog = await blogService.addBlog(newBlog)
-      setAuthor('')
-      setTitle('')
-      setUrl('')
+      const blog = await blogService.addBlog(newBlogObject)
       setBlogs(blogs.concat(blog))
       setConfirmationMessage(`a new blog: ${blog.title} by ${blog.author} was added.`)
       setTimeout(() => {
@@ -87,6 +76,18 @@ const App = () => {
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
+    }
+  }
+
+  const showBlogs = () => {
+    if (user !== null) {
+      return (
+        <Togglable buttonLabel={'new blog'} ref={newBlogRef}>
+          <NewBlog
+            createBlog={addNewBlog}
+          />
+        </Togglable>
+      )
     }
   }
 
@@ -107,18 +108,8 @@ const App = () => {
         errorMessage={errorMessage}
         confirmationMessage={confirmationMessage}
       />
-      <Togglable buttonLabel={'new blog'} ref={newBlogRef}>
-      <NewBlog
-        user={user}
-        handleNewBlog={handleNewBlog}
-        title={title}
-        author={author}
-        url={url}
-        setAuthor={setAuthor}
-        setTitle={setTitle}
-        setUrl={setUrl}
-      />
-      </Togglable>
+
+      {showBlogs()}
 
       <Blogs
         user={user}
