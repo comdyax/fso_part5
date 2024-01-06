@@ -10,6 +10,7 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 
 const App = () => {
+  const [updateBlogs, setUpdateBlogs] = useState(0)
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
@@ -24,7 +25,7 @@ const App = () => {
     blogService.getAll().then(blogs =>
       setBlogs(blogs)
     )
-  }, [])
+  }, [updateBlogs])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
@@ -66,7 +67,7 @@ const App = () => {
     newBlogRef.current.toggleVisibility()
     try {
       const blog = await blogService.addBlog(newBlogObject)
-      setBlogs(blogs.concat(blog))
+      setUpdateBlogs(updateBlogs + 1)
       setConfirmationMessage(`a new blog: ${blog.title} by ${blog.author} was added.`)
       setTimeout(() => {
         setConfirmationMessage(null)
