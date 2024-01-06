@@ -1,4 +1,3 @@
-import blogs from "../services/blogs"
 import Blog from "./Blog"
 
 const Blogs = (props) => {
@@ -9,7 +8,7 @@ const Blogs = (props) => {
                 <ul key={props.user.id}>
                     {props.blogs.map(blog =>
                         <li key={blog.id}>
-                            <Blog blog={blog} newLike={props.newLike} />
+                            <Blog blog={blog} user={props.user} reloadBlogs={props.reloadBlogs} />
                         </li>
                     )}
                 </ul>

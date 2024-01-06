@@ -23,10 +23,10 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs => {
-      blogs.sort((blog1, blog2) => {return blog1.likes < blog2.likes})
+      blogs.sort((blog1, blog2) => { return blog1.likes < blog2.likes })
       setBlogs(blogs)
     }
-      
+
     )
   }, [updateBlogs])
 
@@ -38,6 +38,10 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
+  const reloadBlogs = () => {
+    setUpdateBlogs(updateBlogs + 1)
+  }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -83,11 +87,6 @@ const App = () => {
     }
   }
 
-  const newLike = async (updatedBlogObject) => {
-    await blogService.updateBlog(updatedBlogObject)
-    setUpdateBlogs(updateBlogs + 1)
-  }
-
   const showBlogs = () => {
     if (user !== null) {
       return (
@@ -110,7 +109,6 @@ const App = () => {
         user={user}
         username={username}
         password={password}
-        blogs={blogs}
       />
 
       <Notification
@@ -124,7 +122,7 @@ const App = () => {
         user={user}
         handleLogout={handleLogout}
         blogs={blogs}
-        newLike={newLike}
+        reloadBlogs={reloadBlogs}
       />
     </div>
   )
