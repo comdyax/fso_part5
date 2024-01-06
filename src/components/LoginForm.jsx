@@ -1,5 +1,12 @@
 
-const LoginForm = ({ handleLogin, handleLogout, setUsername, setPassword, username, password, user }) => {
+const LoginForm = ({
+    handleLogin,
+    handleLogout,
+    setUsername,
+    setPassword,
+    username,
+    password,
+    user }) => {
     if (user === null) {
         return (
             <>
