@@ -1,10 +1,21 @@
 import { useState } from "react"
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, newLike }) => {
   const [hide, setHide] = useState(true)
 
   const changeHide = () => {
     setHide(!hide)
+  }
+
+  const addLike = () => {
+    const newBlogObject = {
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes + 1,
+      id: blog.id
+    }
+    newLike(newBlogObject)
   }
 
   const showDetails = { display: hide ? 'none' : '' }
@@ -31,7 +42,7 @@ const Blog = ({ blog }) => {
         <br></br>
         <b>likes:</b> {blog.likes}
         &emsp;
-        <button>like</button>
+        <button onClick={addLike}>like</button>
         <br></br>
         <b>username:</b> {blog.user.username}
         <br></br>

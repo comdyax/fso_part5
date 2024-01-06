@@ -9,7 +9,7 @@ const Blogs = (props) => {
                 <ul key={props.user.id}>
                     {props.blogs.map(blog =>
                         <li key={blog.id}>
-                            <Blog blog={blog} />
+                            <Blog blog={blog} newLike={props.newLike} />
                         </li>
                     )}
                 </ul>

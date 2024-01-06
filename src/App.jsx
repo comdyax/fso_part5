@@ -80,6 +80,11 @@ const App = () => {
     }
   }
 
+  const newLike = async (updatedBlogObject) => {
+    await blogService.updateBlog(updatedBlogObject)
+    setUpdateBlogs(updateBlogs + 1)
+  }
+
   const showBlogs = () => {
     if (user !== null) {
       return (
@@ -116,6 +121,7 @@ const App = () => {
         user={user}
         handleLogout={handleLogout}
         blogs={blogs}
+        newLike={newLike}
       />
     </div>
   )
