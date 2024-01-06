@@ -22,8 +22,11 @@ const App = () => {
   const newBlogRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
+    blogService.getAll().then(blogs => {
+      blogs.sort((blog1, blog2) => {return blog1.likes < blog2.likes})
       setBlogs(blogs)
+    }
+      
     )
   }, [updateBlogs])
 
