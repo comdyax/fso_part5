@@ -58,8 +58,8 @@ const Blog = ({ blog, user, reloadBlogs }) => {
     }
 
     return (
-        <div style={blogStyle}>
-            <div>
+        <div style={blogStyle} className='blogDiv'>
+            <div className='defaultValues'>
                 <b>title:</b> {blog.title}
                 <br></br>
                 <b>author:</b> {blog.author}
@@ -67,11 +67,11 @@ const Blog = ({ blog, user, reloadBlogs }) => {
                 <button style={show} onClick={changeHide}>show details</button>
                 <button style={showNot} onClick={changeHide}>close details</button>
             </div>
-            <div style={showNot}>
+            <div style={showNot} className='detailValues'>
                 <b>url:</b> {blog.url}
                 <br></br>
                 <b>likes:</b> {blog.likes}
-        &emsp;
+                &emsp;
                 <button onClick={addLike}>like</button>
                 <br></br>
                 <b>username:</b> {blog.user.username}
