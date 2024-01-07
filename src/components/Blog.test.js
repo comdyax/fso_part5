@@ -3,7 +3,6 @@ import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import Blog from './Blog'
 import userEvent from '@testing-library/user-event'
-import JSDOMEnvironment from 'jest-environment-jsdom'
 
 let user = null
 let blog = null
