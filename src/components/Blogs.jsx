@@ -8,7 +8,7 @@ const Blogs = (props) => {
                 <ul key={props.user.id}>
                     {props.blogs.map(blog =>
                         <li key={blog.id}>
-                            <Blog blog={blog} user={props.user} reloadBlogs={props.reloadBlogs} />
+                            <Blog blog={blog} user={props.user} reloadBlogs={props.reloadBlogs} addLike={props.addLike} />
                         </li>
                     )}
                 </ul>

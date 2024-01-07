@@ -43,6 +43,11 @@ const App = () => {
         setUpdateBlogs(updateBlogs + 1)
     }
 
+    const addLike = async (newBlogObject) => {
+        await blogService.updateBlog(newBlogObject)
+        setUpdateBlogs(updateBlogs + 1)
+    }
+
     const handleLogin = async (event) => {
         event.preventDefault()
         try {
@@ -123,6 +128,7 @@ const App = () => {
                 handleLogout={handleLogout}
                 blogs={blogs}
                 reloadBlogs={reloadBlogs}
+                addLike={addLike}
             />
         </div>
     )

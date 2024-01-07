@@ -3,7 +3,7 @@ import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
 
 
-const Blog = ({ blog, user, reloadBlogs }) => {
+const Blog = ({ blog, user, reloadBlogs, addLike }) => {
     const [hide, setHide] = useState(true)
 
     const changeHide = () => {
@@ -21,7 +21,7 @@ const Blog = ({ blog, user, reloadBlogs }) => {
         }
     }
 
-    const addLike = async () => {
+    const newLike = () => {
         const newBlogObject = {
             title: blog.title,
             author: blog.author,
@@ -29,12 +29,7 @@ const Blog = ({ blog, user, reloadBlogs }) => {
             likes: blog.likes + 1,
             id: blog.id
         }
-        try {
-            await blogService.updateBlog(newBlogObject)
-            reloadBlogs()
-        } catch (exc) {
-            console.log(exc)
-        }
+        addLike(newBlogObject)
     }
 
     const showNot = { display: hide ? 'none' : '' }
@@ -72,7 +67,7 @@ const Blog = ({ blog, user, reloadBlogs }) => {
                 <br></br>
                 <b>likes:</b> {blog.likes}
                 &emsp;
-                <button onClick={addLike}>like</button>
+                <button onClick={newLike}>like</button>
                 <br></br>
                 <b>username:</b> {blog.user.username}
                 <br></br>
@@ -85,7 +80,8 @@ const Blog = ({ blog, user, reloadBlogs }) => {
 Blog.propTypes = {
     blog: PropTypes.object.isRequired,
     reloadBlogs: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    addLike: PropTypes.func.isRequired
 
 }
 
