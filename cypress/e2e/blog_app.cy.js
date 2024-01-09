@@ -75,12 +75,19 @@ describe('Blog app', function () {
           cy.createBlog({ title: 'onetwo', author: 'threefour', url: 'fivesix', likes: 0 })
           cy.createBlog({ title: 'seveneight', author: 'nineten', url: 'eleventwelve', likes: 10 })
         })
-        it.only('user can like a blog', function () {
+        it('user can like a blog', function () {
           cy.contains('title: onetwo').parent().as('blog')
           cy.get('@blog').get('#showDetails-button').click()
           cy.get('@blog').contains('likes: 0')
           cy.get('@blog').get('#like-button').click()
           cy.get('@blog').contains('likes: 1')
+        })
+        it.only('user can delete a blog that he created', function () {
+          cy.contains('title: onetwo').parent().as('blog')
+          cy.get('@blog').get('#showDetails-button').click()
+          cy.get('@blog').get('#remove-button').click()
+
+          cy.get('html').should('not.contain', 'title: onetwo')
         })
       })
 
