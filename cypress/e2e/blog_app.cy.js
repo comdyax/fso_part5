@@ -69,6 +69,21 @@ describe('Blog app', function () {
           .and('have.css', 'color', 'rgb(0, 128, 0)')
           .and('have.css', 'border-style', 'solid')
       })
+
+      describe('When blogs already exist', function () {
+        beforeEach(function () {
+          cy.createBlog({ title: 'onetwo', author: 'threefour', url: 'fivesix', likes: 0 })
+          cy.createBlog({ title: 'seveneight', author: 'nineten', url: 'eleventwelve', likes: 10 })
+        })
+        it.only('user can like a blog', function () {
+          cy.contains('title: onetwo').parent().as('blog')
+          cy.get('@blog').get('#showDetails-button').click()
+          cy.get('@blog').contains('likes: 0')
+          cy.get('@blog').get('#like-button').click()
+          cy.get('@blog').contains('likes: 1')
+        })
+      })
+
     })
 
 

@@ -59,7 +59,7 @@ const Blog = ({ blog, user, reloadBlogs, addLike }) => {
         <br></br>
         <b>author:</b> {blog.author}
         <br></br>
-        <button style={show} onClick={changeHide}>show details</button>
+        <button style={show} onClick={changeHide} id='showDetails-button'>show details</button>
         <button style={showNot} onClick={changeHide}>close details</button>
       </div>
       <div style={showNot} className='detailValues'>
@@ -67,7 +67,7 @@ const Blog = ({ blog, user, reloadBlogs, addLike }) => {
         <br></br>
         <b>likes:</b> {blog.likes}
                 &emsp;
-        <button onClick={newLike}>like</button>
+        <button onClick={newLike} id='like-button'>like</button>
         <br></br>
         <b>username:</b> {blog.user.username}
         <br></br>
