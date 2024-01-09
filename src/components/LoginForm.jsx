@@ -32,14 +32,14 @@ const LoginForm = ({
               id="password"
             />
           </div>
-          <button type="submit">login</button>
+          <button type="submit" id="login-button">login</button>
         </form>
       </>
     )
   } else {
     return (
       <div>
-        <h1>{user.name} ist logged in</h1>
+        <h1>{user.name} is logged in</h1>
         <form onSubmit={handleLogout}>
           <button type='submit'>logout</button>
         </form>
