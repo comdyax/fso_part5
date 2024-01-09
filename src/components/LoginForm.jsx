@@ -41,7 +41,7 @@ const LoginForm = ({
       <div>
         <h1>{user.name} is logged in</h1>
         <form onSubmit={handleLogout}>
-          <button type='submit'>logout</button>
+          <button type='submit' id="logout-button">logout</button>
         </form>
       </div>
     )

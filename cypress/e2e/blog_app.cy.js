@@ -69,31 +69,62 @@ describe('Blog app', function () {
           .and('have.css', 'color', 'rgb(0, 128, 0)')
           .and('have.css', 'border-style', 'solid')
       })
-
-      describe('When blogs already exist', function () {
-        beforeEach(function () {
-          cy.createBlog({ title: 'onetwo', author: 'threefour', url: 'fivesix', likes: 0 })
-          cy.createBlog({ title: 'seveneight', author: 'nineten', url: 'eleventwelve', likes: 10 })
-        })
-        it('user can like a blog', function () {
-          cy.contains('title: onetwo').parent().as('blog')
-          cy.get('@blog').get('#showDetails-button').click()
-          cy.get('@blog').contains('likes: 0')
-          cy.get('@blog').get('#like-button').click()
-          cy.get('@blog').contains('likes: 1')
-        })
-        it.only('user can delete a blog that he created', function () {
-          cy.contains('title: onetwo').parent().as('blog')
-          cy.get('@blog').get('#showDetails-button').click()
-          cy.get('@blog').get('#remove-button').click()
-
-          cy.get('html').should('not.contain', 'title: onetwo')
-        })
-      })
-
     })
 
+    describe('When blogs already exist', function () {
+      beforeEach(function () {
+        cy.login({ username: 'The Trane', password: 'TransitionJapanConcerts' })
+        cy.createBlog({ title: 'seveneight', author: 'nineten', url: 'eleventwelve', likes: 2 })
+        cy.createBlog({ title: 'onetwo', author: 'threefour', url: 'fivesix', likes: 0 })
+        cy.createBlog({ title: 'thirteen', author: 'fourteen', url: 'fifteen', likes: 5 })
+        cy.visit('')
+      })
 
+      it('blogs are ordered according to likes, most likes first', function () {
+        cy.get('.blogDiv').eq(2).should('contain', 'title: onetwo')
+        cy.get('.blogDiv').eq(1).should('contain', 'title: seveneight')
+        cy.get('.blogDiv').eq(0).should('contain', 'title: thirteen')
+      })
+
+      it('user can like a blog', function () {
+        cy.contains('title: onetwo').parent().as('blog')
+        cy.get('@blog').find('#showDetails-button').click()
+        cy.get('@blog').contains('likes: 0')
+        cy.get('@blog').find('#like-button').click()
+        cy.get('@blog').contains('likes: 1')
+      })
+
+      it('user can delete a blog that he created', function () {
+        cy.contains('title: onetwo').parent().as('blog')
+        cy.get('@blog').find('#showDetails-button').click()
+        cy.get('@blog').find('#remove-button').click()
+
+        cy.get('html').should('not.contain', 'title: onetwo')
+      })
+
+      describe('second user', function () {
+        beforeEach(function () {
+          cy.get('#logout-button').click()
+          const user = {
+            name: 'second user',
+            username: '2nduser',
+            password: 'secondtwo22'
+          }
+          cy.request('POST', `${Cypress.env('BACKEND')}/users`, user)
+          cy.login({ username: '2nduser', password: 'secondtwo22' })
+        })
+
+        it('only creator can see delete button not', function () {
+          cy.contains('second user is logged in')
+          cy.get('html').should('not.contain', '#remove-button')
+
+          cy.contains('title: onetwo').parent().as('blog')
+          cy.get('@blog').find('#showDetails-button').click()
+          cy.get('@blog').should('not.contain', '#remove-button')
+        })
+      })
+    })
   })
 })
+
 
